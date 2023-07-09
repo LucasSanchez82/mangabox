@@ -62,3 +62,45 @@ exports.deleteOeuvre = async (req, res) => {
     res.status(500).json({ error: 'Erreur lors de la suppression de l\'œuvre' });
   }
 };
+
+// Contrôleur pour créer une œuvre
+exports.createOeuvre = async (req, res) => {
+  const { titre, adresse_image, lien, chapitre } = req.body;
+  try {
+    const oeuvre = await Oeuvre.create({ titre, adresse_image, lien, chapitre });
+    res.json(oeuvre);
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur lors de la création de l\'œuvre' });
+  }
+};
+
+// Contrôleur pour modifier plusieurs œuvres d'un coup
+exports.updateMultipleOeuvres = async (req, res) => {
+  const { oeuvres } = req.body;
+  try {
+    for (const { id, titre, adresse_image, lien, chapitre } of oeuvres) {
+      const oeuvre = await Oeuvre.findByPk(id);
+      if (oeuvre) {
+        oeuvre.titre = titre;
+        oeuvre.adresse_image = adresse_image;
+        oeuvre.lien = lien;
+        oeuvre.chapitre = chapitre;
+        await oeuvre.save();
+      }
+    }
+    res.json({ message: 'Œuvres modifiées avec succès' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur lors de la modification des œuvres' });
+  }
+};
+
+// Contrôleur pour supprimer plusieurs œuvres d'un coup
+exports.deleteMultipleOeuvres = async (req, res) => {
+  const { ids } = req.body;
+  try {
+    await Oeuvre.destroy({ where: { id: ids } });
+    res.json({ message: 'Œuvres supprimées avec succès' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur lors de la suppression des œuvres' });
+  }
+};

@@ -18,6 +18,12 @@ const Oeuvre = db.define('Oeuvre', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  utilisateur_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+}, {
+  timestamps: false // Desactive les champs createdAt et updatedAtt
 });
 
 module.exports = Oeuvre;

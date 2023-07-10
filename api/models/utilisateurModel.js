@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../db');
 
-const Utilisateur = db.define('Utilisateur', {
+const Utilisateur = db.define('utilisateur', {
   nom: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -18,6 +18,8 @@ const Utilisateur = db.define('Utilisateur', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: false // Desactive les champs createdAt et updatedAtt
 });
 
 module.exports = Utilisateur;

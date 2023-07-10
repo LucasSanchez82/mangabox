@@ -29,7 +29,7 @@ exports.getOeuvreById = async (req, res) => {
 // Contrôleur pour modifier une œuvre
 exports.updateOeuvre = async (req, res) => {
   const { id } = req.params;
-  const { titre, adresse_image, lien, chapitre } = req.body;
+  const { titre, adresse_image, lien, chapitre/*, utilisateur_id*/ } = req.body;
   try {
     const oeuvre = await Oeuvre.findByPk(id);
     if (oeuvre) {
@@ -37,6 +37,7 @@ exports.updateOeuvre = async (req, res) => {
       oeuvre.adresse_image = adresse_image;
       oeuvre.lien = lien;
       oeuvre.chapitre = chapitre;
+      // oeuvre.utilisateur_id = utilisateur_id;
       await oeuvre.save();
       res.json(oeuvre);
     } else {
@@ -65,9 +66,9 @@ exports.deleteOeuvre = async (req, res) => {
 
 // Contrôleur pour créer une œuvre
 exports.createOeuvre = async (req, res) => {
-  const { titre, adresse_image, lien, chapitre } = req.body;
+  const { titre, adresse_image, lien, chapitre, utilisateur_id } = req.body;
   try {
-    const oeuvre = await Oeuvre.create({ titre, adresse_image, lien, chapitre });
+    const oeuvre = await Oeuvre.create({ titre, adresse_image, lien, chapitre, utilisateur_id });
     res.json(oeuvre);
   } catch (error) {
     res.status(500).json({ error: 'Erreur lors de la création de l\'œuvre' });
